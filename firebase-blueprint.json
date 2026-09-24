@@ -1,0 +1,57 @@
+{
+  "entities": {
+    "Question": {
+      "title": "Question",
+      "description": "A quiz question with multiple choice options",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "question": { "type": "string" },
+        "options": { "type": "array" },
+        "correctAnswer": { "type": "number" },
+        "points": { "type": "number" }
+      },
+      "required": ["id", "question", "options", "correctAnswer", "points"]
+    },
+    "TeamState": {
+      "title": "TeamState",
+      "description": "Current state and score for a participating team",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "connected": { "type": "boolean" },
+        "score": { "type": "number" },
+        "correctCount": { "type": "number" },
+        "answeredCount": { "type": "number" },
+        "currentIndex": { "type": "number" },
+        "status": { "type": "string", "enum": ["WAITING", "READY", "PLAYING", "FINISHED"] },
+        "lastAnswerAt": { "type": "number" }
+      },
+      "required": ["name", "connected", "score", "correctCount", "answeredCount", "currentIndex", "status"]
+    },
+    "Game": {
+      "title": "Game",
+      "description": "Match configuration, state and active teams for BELZ QUIZ",
+      "type": "object",
+      "properties": {
+        "code": { "type": "string", "maxLength": 16 },
+        "name": { "type": "string", "maxLength": 100 },
+        "status": { "type": "string", "enum": ["WAITING", "READY", "ACTIVE", "FINISHED"] },
+        "durationSeconds": { "type": "number" },
+        "startedAt": { "type": "number" },
+        "endsAt": { "type": "number" },
+        "createdAt": { "type": "number" },
+        "winner": { "type": "string" },
+        "teamA": { "$ref": "#/entities/TeamState" },
+        "teamB": { "$ref": "#/entities/TeamState" }
+      },
+      "required": ["code", "name", "status", "durationSeconds", "createdAt", "teamA", "teamB"]
+    }
+  },
+  "firestore": {
+    "/games/{gameId}": {
+      "schema": "Game",
+      "description": "Primary match document holding live match state, synchronized timer and team progress"
+    }
+  }
+}

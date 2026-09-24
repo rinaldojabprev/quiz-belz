@@ -1,0 +1,6 @@
+{
+  "name": "BELZ QUIZ",
+  "description": "Jogo de perguntas e respostas competitivo para duas equipes em tempo real da Belz Corretora de Seguros.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
